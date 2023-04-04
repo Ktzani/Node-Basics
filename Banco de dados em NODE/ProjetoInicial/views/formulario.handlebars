@@ -1,0 +1,13 @@
+<h1>BEM VINDO AO MEU PRIMEIRO FORMULARIO!!</h1>
+
+<!--action: diz para qual rota voce quer enviar os dados do formulário-->
+<!--method: forma como o formulario serão enviados para o backend: GET ou POST-->
+    <!--GET: envio de dados pela própria URL (ruim pois fica amostra os dados da pessoa)-->
+    <!--POST: não passa os dados pela URL-->
+<form action="/add" method="POST">
+    <p>Titulo: </p>
+    <input type="text" name="titulo">
+    <p>Conteúdo: </p>
+    <textarea name="conteudo" id="" cols="30" rows="10"></textarea>
+    <button type="submit">Cadastrar postagem</button>
+</form>

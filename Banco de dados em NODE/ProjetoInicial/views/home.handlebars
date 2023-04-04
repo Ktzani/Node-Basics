@@ -1,0 +1,18 @@
+<!-- Aqui vamos ver a lista de postagens do nosso banco de dados !-->
+<h1>Lista de Postagens </h1>
+
+{{!-- Estrutura do handlebars para receber varios objetos de uma vez dentro de uma view 
+O que isso faz? Para cada postagem, faça algo. No caso esse algo é exibir o titulo e o conteudo dela--}}
+{{#each posts}}
+    <small>{{createdAt}}</small>
+    <h1>{{id}}</h1>
+    <h2>{{titulo}}</h2>
+    <p>{{conteudo}}</p>
+    <a href="/deletar/{{id}}"> {{!Precisamos mandar esse botão para uma rota. Por isso, usamos o <a href = ''>}}
+        <button>Deletar</button> {{! Botão para deletar uma postagem. É necessário redirecionar o usuário quando clicar}}
+    </a>
+    <a href="/edit/{{id}}"> {{!Precisamos mandar esse botão para uma rota. Por isso, usamos o <a href = ''>}}
+        <button>Editar</button> {{! Botão para atualizar uma postagem. É necessário redirecionar o usuário quando clicar}}
+    </a>
+    <hr>
+{{/each}}
