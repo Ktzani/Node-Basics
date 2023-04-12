@@ -1,0 +1,30 @@
+ALTER TABLE articles DROP CONSTRAINT articles_ibfk_1;
+
+ALTER TABLE articles ADD CONSTRAINT FK_CategoryId
+FOREIGN KEY (categoryId) REFERENCES categories
+(id) ON DELETE RESTRICT ON UPDATE
+CASCADE;
+
+CREATE TABLE IF NOT EXISTS `articles` (`id` INTEGER NOT NULL auto_increment , `title` VARCHAR(255) NOT NULL, `slug` VARCHAR(255) NOT NULL, `body` TEXT NOT NULL, 
+`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `categoryId` INTEGER, PRIMARY KEY (`id`), FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) 
+ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+
+SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE TABLE_NAME='STUDENT_INFO';
+
+CASCADE: A opção CASCADE permite excluir ou atualizar os registros relacionados presentes na tabela filha automaticamente, quando um registro da tabela pai for atualizado (ON UPDATE) ou excluído (ON DELETE). É a opção mais comum aplicada.
+
+RESTRICT: Impede que ocorra a exclusão ou a atualização de um registro da tabela pai, caso ainda hajam registros na tabela filha. Uma exceção de violação de chave estrangeira é retornada. A verificação de integridade referencial é 
+realizada antes de tentar executar a instrução UPDATE ou DELETE
+
+SET NULL: Esta opção é usada para definir com o valor NULL o campo na tabela filha quando um registro da tabela pai for atualizado ou excluído.
+
+NO ACTION: Essa opção equivale à opção RESTRICT, porém a verificação de integridade referencial é executada após a tentativa de alterar a tabela. É a opção padrão, aplicada caso nenhuma das opções seja definida na criação da 
+chave estrangeira.
+
+SET DEFAULT: “Configura Padrão” – Define um valor padrão na coluna na tabela filha, aplicado quando um registro da tabela pai for atualizado ou excluído.
+
+ALTER TABLE articles
+MODIFY categoryId int NOT NULL;

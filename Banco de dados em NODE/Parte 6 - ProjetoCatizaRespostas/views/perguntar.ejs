@@ -1,0 +1,23 @@
+<%- include ('./partials/header.ejs')%>
+<body>
+    <%- include ('./partials/navbar.ejs')%>
+    <!-- Container centraliza o conteudo no meio da visualização do navegador. Logo tudo que eu coloco dentro do conteiner fica centralizado
+    e o que eu coloco fora fica colado na borda-->
+    <div class="container">
+       <div class="card" id="formulario-pergunta">
+        <div class="card-header">
+            <h3>Realizar pergunta</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/salvarPergunta">
+                <label for="">Título</label>
+                <input name="titulo" type="text" placeholder="Título" class="form-control">
+                <br><label for="">Descrição</label>
+                <textarea name="descricao" placeholder="Descreve sua pergunta aqui" class="form-control" name="Pergunta" id="" cols="30" rows="10"></textarea>
+                <br><button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+<%- include ('./partials/footer.ejs')%>
+
