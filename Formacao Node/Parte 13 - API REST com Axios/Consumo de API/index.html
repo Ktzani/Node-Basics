@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de games</title>
+</head>
+<body>
+    <hr>
+    <h4>Lista de Games</h4>
+    <ul id="games"></ul>
+    <hr>
+    <h4>Novo Game</h4>
+    <form id="formGame">
+        <input type="text" name="title" id="title" placeholder="Título"><br>
+        <input type="number" name="year" id="year" placeholder="Ano"><br>
+        <input type="number" name="price" id="price" placeholder="Preço"><br>
+        <button type="button" onclick="createGame()">Criar</button>
+    </form>
+</body>
+</html>
+
+<script src="./axios.js"></script>
+<script>
+
+    function createGame(){
+        let frmGame = document.querySelector("#formGame") //document.getElementById("formGame")
+        let titleInput = frmGame.title //document.getElementById("title")
+        let yearInput = frmGame.year
+        let princeInput = frmGame.price
+
+        //Campos tem que estar exatamente com os mesmos nomes da API que estou enviando 
+        let game = {
+            title: titleInput.value,
+            year: yearInput.value,
+            price: princeInput.value
+        }
+
+        axios.post("http://localhost:8080/game", game).then(res => {
+            if(res.status == 200){
+                alert("Game Cadastrado")
+            }
+        }).catch(err => {
+            console.error(err); 
+        })
+    }
+
+
+    axios.get("http://localhost:8080/games").then(res => {
+        let games = res.data
+        let list = document.getElementById("games");
+
+        games.forEach(game => {
+            let item = document.createElement("li")
+            item.setAttribute("data-id", game.id)
+            item.setAttribute("data-title", game.title)
+            item.setAttribute("data-year", game.year)
+            item.setAttribute("data-price", game.price)
+            item.innerHTML = game.id + " - " + game.title + " - $" + game.price + " - " + game.year
+            list.appendChild(item)
+        });
+    }).catch(err => {
+        console.error(err); 
+    })
+</script>
