@@ -7,6 +7,14 @@
     <title>Loja de games</title>
 </head>
 <body>
+
+    <h2>Login</h2>
+    <form id="login">
+        <input type="text" name="email" id="email" placeholder="nome@email.com"><br>
+        <input type="password" name="password" id="password" placeholder="***********"><br>
+        <button type="button" onclick="login()">Entrar</button>
+    </form>
+
     <hr>
     <h4>Lista de Games</h4>
     <ul id="games"></ul>
@@ -34,6 +42,33 @@
 
 <script src="./axios.js"></script>
 <script>
+    let axiosConfig = {
+        headers: {
+            authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
+    function login(){
+        let frmLogin = document.getElementById("login")
+        let emailInput = frmLogin.email
+        let passwordInput = frmLogin.password
+
+        let email = emailInput.value
+        let password = passwordInput.value
+
+        axios.post("http://localhost:8080/auth", {email, password}).then(res => {
+            var token = res.data.token
+
+            //Local dentro do navegador que serve para armazenar daods de uma forma persistente, ou seja, dados que permanecem salvos no PC 
+            //do usuario mesmo ele desligando o PC. So é deletado quando o usuario deleta o cache do navegador fazendo a sua limpa. É como se 
+            //se fosse um pequeno HD. Cada site tem seu proprio storage no navegador do usuario
+            localStorage.setItem("token", token)
+            axiosConfig.headers.authorization = "Bearer " + localStorage.getItem("token")
+            alert("Logado!!")
+        }).catch(err => {
+            alert("Login Inválido!")
+        })
+    }
 
     function createGame(){
         let frmGame = document.querySelector("#createGame") //document.getElementById("createGame")
@@ -48,7 +83,7 @@
             price: princeInput.value
         }
 
-        axios.post("http://localhost:8080/game", game).then(res => {
+        axios.post("http://localhost:8080/game", game, axiosConfig).then(res => {
             if(res.status == 200){
                 alert("Game Cadastrado")
             }
@@ -60,7 +95,7 @@
     function deleteGame(ItemList){
         let id = ItemList.getAttribute("data-id")
         
-        axios.delete("http://localhost:8080/game/" + id).then(res => {
+        axios.delete("http://localhost:8080/game/" + id, axiosConfig).then(res => {
             alert("Game deletado!")
         }).catch(err => {
             console.error(err); 
@@ -96,7 +131,7 @@
         console.log(game)
 
         let id = idInput.value
-        axios.put("http://localhost:8080/game/" + id, game).then(res => {
+        axios.put("http://localhost:8080/game/" + id, game, axiosConfig).then(res => {
             if(res.status == 200){
                 alert("Game Atualizado!!")
             }
@@ -105,8 +140,8 @@
         })
     }
 
-    axios.get("http://localhost:8080/games").then(res => {
-        let games = res.data
+    axios.get("http://localhost:8080/games", axiosConfig).then(res => {
+        let games = res.data.games
         let list = document.getElementById("games");
 
         games.forEach(game => {

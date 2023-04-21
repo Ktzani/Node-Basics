@@ -1,0 +1,23 @@
+REST -> padrão usada para desenvolver web services, facilitando a forma de desenvolvimento e de consumir
+1- Uso da Arquitetura cliente-servidor. Nossa API nao pode ser ao mesmo tempo cliente e servidor
+2- Stateless: Não se deve guardar estado do cliente, ou seja, nao se deve guardar nenhuma informação do cliente sobre aquela requisição 
+3- Cacheável: é necessario guardar informacoes em cache. mas nao preocupar mt com isso, ja que ela so serve para economizar dados de pro
+   cessamento no servidor
+4- Trabalhar com camadas: nao importa se eu colocar um firewall, um middleware, um proxy na frente da usa API, ela funcionara corretamente
+    SEM NENHUM PROBLEMA. Ela vai responder e retornar dados
+5- Interface UNIFORME E DIRETA: rotas de uma API são interfaces. Nesse caso, o nome que eu escrever para a rota é o que ela deve fazer
+    Exemplo de rota NAO UNIFORME: http://meusite.com/getCliente/todos
+                                  http://meusite.com/deletarClientes/pelorId/1
+    Exemplo correto: GET = http://meusite.com/clientes
+                     DELETE = http://meusite.com/cliente/1
+                     GET = http://meusite.com/cliente/1
+    Portanto, o meu programa/API REST tem que saber que se eu fizer uma requisição utilizando DELETE, EU TENHO QUE DELETAR (mesma coisa com
+    qualquer outro verbo HTTP). LOGO, sempre utilizar bons nomes para as rotas (ser o mais direto, enxuto e uniforme possivel), além de 
+    sempre utilizar os verbos HTTP para realizar as ações
+
+RESTFUL -> 
+NIVEL 0 : tenho a API mas toda a questao da manipulacao da API esta focando em apenas uma rota/endpoint
+NIVEL 1: divido as entidades em varios recursos. Exemplos: recurso produtos, categorias, clientes, fornecedores. Agora eu tenho uma rota/endpoint para cada tipo de dado
+NIVEL 2: quando utilizo e implemento os verbos HTTP corretamente na API
+NIVEL 3: usando o HATEOS, quando eu faço uma requisicao para uma API, alem de retornar os dados daquele recurso, ela retorna os links das açoes que posso fazer daquele recurso (exemplo: um usuario do twitter possui a lista de links 
+para editar, seguir ele, ter as informacoes do usuario, etc

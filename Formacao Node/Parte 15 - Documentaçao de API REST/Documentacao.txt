@@ -1,0 +1,92 @@
+# API de Games
+Esta API é utilizada para site de compras de jogos  
+ 
+## Endpoints
+Para cada rota da minha API farei uma definição sobre ela:  
+
+### GET /games
+Essa endpoint é responsável por retornar todos os games cadastrados no meu banco de dados
+#### Parametros
+Nenhum
+#### Respostas
+- OK! 200  
+Caso essa resposta aconteça, você vai receber a listagem de todos os games.
+
+**Exemplo de resposta:**
+```
+
+[
+    {
+        "id": 23,
+        "title": "Call of Duty MW",
+        "year": 2019,
+        "price": 50
+    },
+    {
+        "id": 12,
+        "title": "Sea of Thives",
+        "year": 2017,
+        "price": 200
+    },
+    {
+        "id": 25,
+        "title": "BF 2042",
+        "year": 2021,
+        "price": 100
+    }
+]
+
+```
+- Falha na autenticação! 401  
+Aconteceu alguma falha durante o processo de autenticação de requisição.  
+ Motivos: 
+  1. Token inválido
+  2. Token expirado
+
+Exemplo de Resposta:
+```
+{
+    "err": "Token Inválido!"
+}
+
+```
+
+### POST /auth
+Essa endpoint é responsável por fazer o processo de login.
+#### Parametros
+__email__: Email do usuário cadastrado no sistema
+
+__password__: Senha do usuário cadastrado no sistema, com aquele determinado e-mail
+
+Exemplo: 
+```
+{
+    "email": "gabrielcatizani2001@hotmail.com",
+    "password": "12345"
+}
+
+```
+
+#### Respostas
+- OK! 200  
+Caso essa resposta aconteça, você vai receber o token de autenticação JWT para conseguir acessar endpoint protegidos da API.
+**Exemplo de resposta:**
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnYWJyaWVsY2F0aXphbmkyMDAxQGhvdG1haWwuY29tIiwiaWF0IjoxNjgxODQ0ODkzLCJleHAiOjE2ODIwMTc2OTN9.FfSwyfyi2QM4W6k1hNAX7evWKcZuPmj4mxR0WJJsvzU"
+}
+
+```
+- Falha na autenticação! 401  
+Caso essa resposta aconteça, aconteceu alguma falha durante o processo de autenticação de requisição.  
+ Motivos: 
+  1. Email Incorreta
+  2. Senha Incorreta
+Exemplo de Resposta:
+```
+{
+    "err": "Credenciais INVÁLIDAS"
+}
+
+```
+
