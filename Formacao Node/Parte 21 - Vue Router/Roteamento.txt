@@ -1,0 +1,7 @@
+O ato de ter multiplas páginas dentro de uma aplicação vue é chamado de ROTEAMENTO, OU SEJA, consigo acessar diversas paginas do vue com o vue-router
+
+HISTORY MODE: 
+Rotas com: meusite.com/cadastro
+Rotas sem: meusite.com/#/cadastro
+Qual o custo de utilizar History Mode? 
+- Para fazer o deploy da aplicacao vue a complexidade aumenta e e isso é explicado na documentacao do vue-router

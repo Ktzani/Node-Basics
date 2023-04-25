@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- O oninput envia a todo momento que escreve algo no input-->
+    <input type="text" name="" id="palavra" oninput="enviar()">
+
+    <!-- O onclick envia a todo momento que envia a msg completa-->
+    <button onclick="enviar()" type="submit">Enviar</button>
+    <hr>
+    <p id="resultado"></p>
+</body>
+</html>
+
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+<script>
+    // Conectando meu socket do frontend ao backend
+    let socket = io("http://localhost:8080")
+
+    // Evento disparado quando detecta se o cliente caiu da conexão com o site (so funciona para conexoes limpar, como fechar o site, desligar 
+    // o computador manualmente entretanto nao funciona com internet caindo, energia caindo, etc...)
+    socket.on("disconnect", () => {
+        console.log("Estou desconectado")
+    })
+
+    //Com o emit eu mando uma msg/evento para meu servidor. Eu falo o nome do evento, e em seguida o dado que quero transmitir atraves do evento
+    socket.emit("boasvindas", {nome: "Gabriel Catizani"})
+
+    //Recebendo um evento do servidor backend
+    socket.on("resultado", (data) => {
+        console.log(data)
+
+        let p = document.getElementById("resultado")
+        p.innerHTML = data
+    })
+
+    function enviar(){
+        let input = document.getElementById("palavra")
+        socket.emit("palavra", {text: input.value})
+    }
+</script>

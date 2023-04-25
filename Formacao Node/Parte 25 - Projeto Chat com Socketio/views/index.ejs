@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card mt-4">
+            <div class="card-header">
+                <h1>Chat do Catiza</h1>
+            </div>
+            <div class="card-body">
+                <div id="chat">
+                    
+                </div><br>
+                <input class="form-control" type="text" name="" id="msg" placeholder="Msg"><br>
+                <input class="form-control" type="text" name="" id="username" placeholder="Seu nome usuario"><br>
+                <button class="btn btn-primary btn-lg btn-block" onclick="enviar()" type="submit" >Enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+<script>
+    // Conectando meu socket do frontend ao backend
+    let socket = io("http://localhost:8080")
+
+    // Evento disparado quando detecta se o cliente caiu da conexão com o site (so funciona para conexoes limpar, como fechar o site, desligar 
+    // o computador manualmente entretanto nao funciona com internet caindo, energia caindo, etc...)
+    socket.on("disconnect", () => {
+        console.log("Estou desconectado")
+    })
+
+    socket.on("showMsg" , (data) => {
+        console.log(data)
+        let chat = document.getElementById("chat")
+        let p = document.createElement("chat")
+        p.innerHTML = data.username + ": " + data.message + "<hr>"
+        chat.appendChild(p)
+    })
+
+    function enviar(){
+        let msgField = document.getElementById("msg")
+        let usernameField = document.getElementById("username")
+
+        let msg = msgField.value
+        let username = usernameField.value
+
+        socket.emit("message", {message: msg, username: username})
+    }
+</script>
+
+<style>
+    #chat {
+        max-height: 500px;
+        min-height: 500px;
+        background-color: aliceblue;
+        /* Scroll na vertical */
+        overflow-y: scroll;
+    }
+</style>

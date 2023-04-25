@@ -1,0 +1,37 @@
+O MongoDB é um banco de dados nao relacional, pois não é possivel relacionar uma tabela com a outra. Alem de que tambem no MongoDB não existem tabelas.
+No mongo nao existe o conceito de tabelas, pois os atributos de uma tabela sempre devem ser os mesmos na tabela, nao podendo ter mais ou menos, ou seja, sao atributos 
+constantes. No mongo nao existem limitacoes de atributos. Portanto, nao é necessario seguir uma estrutura já predefinida de tabela. Eu consigo salvar diferentes elementos
+em uma mesma tabela, COMO UM CARRO E UM CLIENTE
+
+No mongo nao existem TABELAS. Exitem COLEÇÕES. Coleçoes sao como pastas, onde posso colocar DOCUMENTOS. Esses DOCUMENTOS são os dados. Cada documento desse é um dado especifico.
+Um documento não tem relacionamento nenhum com outro. Os dados dos documentos são organizados no formato JSON
+
+Não existe relacionamento no MongoDB, porem posso fazer as mesmas aplicacoes que faço com SQL com MongoDB, mas nao é possivel seguir os mesmos padrões. O relacionamento 
+dentro do Mongo funciona atraves de algo chamado Herança. Nesse caso ao inves de ser uma tabela conversando com a outra, eu insiro um dado dentro de outro, ou seja, um 
+documento dentro de outro
+
+O MongoDB é feito para aplicações principalmente quando tem dados que são muito flexiveis, como por exemplo um questionario. Tem varios historico questoes para um usuario. 
+Nesse caso, ao inves de ter varios relacionamentos de varias tabelas, eu faço algo mt mais simples e ai que o Mongo tem seus beneficios
+
+A questão principal é: use o mySQl como banco de dados principal e o MongoDB como banco de dados secundario da sua aplicação. Mas por que isso? VER TEOREMA CAP: 3 pilares
+de um banco de dados: consistencia, disponibilidade e tolerencia de partição. Todo banco de dados deve ter no minimo dois desse pilares e no maximo 2
+- Consistencia: mandar banco de dados cadastrar algo e ter a garantia que foi cadastrado, ou seja, voce faz uma query para inserir algo no banco e em seguida (1 segundo dps)
+faz um consulta e essa informação inserida anteriormente tem que la 
+- Tolerancia a partição: separo o meu banco em varios servidores. Se uma ou mais das 5 partiçoes estiver fora do ar e mandar um dado para acessa-lo, o partition tolerency ele 
+garante que esse dado vai ser salvo
+- Disponibilidade (aqui q tem o problema em relação ao uso do mySQL antes do MongoDB): nesse caso disponibilidade é fazer uma query (manda um select) e garantir que o servidor
+vai responder, nem que seja falando "o servidor está fora do ar" ou "ocorreu uma falha durante a seleção", ou seja, nem que seja um erro. 
+
+O mysql tem consistencia e disponibilidade e o MongoDB tem consitencia e tolerancia a partição. Ai vem o problema: dependendo do servidor onde está rodando o MongoDB, algumas
+vezes mandando o select pra ele esperando o retorno de dados, ele não dá erro e nao retorna dados. É retornado o json/array vazio de dados e isso nao acontece no mysql!! É 
+garantido que vai ser retornado os registros no mysql, a nao ser que o servidor caia e nesse caso retorna uma msg que o servidor caiu. Portanto, esse problema é amenizado 
+dependendo do servidor Mongo. Geralmente, é necessario so um servidor para o Mongo (de no minimo 2gb) para reduzir ao maximo os erros de disponibilidade e geralmente ainda
+dependendo do fluxo de usuarios pode ter esse problema. 
+
+Por conta disso, o custo para manter um servidor Mongo é infinitamente maior que o custo para manter um servidor mysql. Eu consigo fazer uma sql rodar perfeitamente em um 
+servidor com um tamanho baixo (256mb) e por isso nao tenho problema de dispobilidade. A query pode ate ser lenta, porem nao tenho problema de dispobilibidade e assim fica 
+bem mais barato e posso ate colocar em um servidor mais parrudo para aumentar a velocidade. Se eu coloco o mongoDB em um servidor de menor tamanho terá um grande problema
+de disponibilidade e so é resolvido com um hardware melhor, entretanto o custo aumenta. 
+
+OBS: isso nao diz que o mongo é um banco ruim. Apenas mais caro para mante-lo e um pouco menos estavel, mas é um banco mais produtivo que mysql
+
