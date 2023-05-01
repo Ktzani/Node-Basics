@@ -3,18 +3,30 @@ const app = require('../src/app');
 
 let request = supertest(app)
 
+let mainUser = {name: 'John', email: 'john@example.com', password: 'password'}
+
+//? Um Global afeta apenas a switch de teste que ele está inserido. CADA SWITCH É INDEPENDENTE UMA DA OUTRA
 //Função que vai ser executada antes de qualquer teste rodar e é como se fosse uma função global em que 
 //o que está dentro dela pode ser reutilizada em todos os testes. Como por exemplo, vou inserir um unico
 //usuario no banco para ficar o reutilizando
 beforeAll(() => {
-    console.log("DEPOIS DE 12 ")
+    return request.post("/user")
+        .send(mainUser)
+        .then(res =>{})
+        .catch(err => {
+                console.log(err)
+        })
 })
 
 
 //Essa funçao é rodado ao final da switch de testes. Logo, quando todos meus testes forem concluidos, eu rodo a função afterAll. 
 //Logo, eu coloco qualquer logica que desejo executar ao fim da minha switch, como por exemplo, deletar um usuario ao final do teste
 afterAll(() => {
-
+    return request.delete(`/user/${mainUser.email}`)
+    .then((res) => {})
+    .catch(err => {
+        console.log(err)
+    })
 })
 
 
@@ -79,4 +91,43 @@ describe("Cadastro de usuario", () => {
                 fail(err)
             })
     })
+})
+
+describe("Autenticação", () => {
+    test("Deve retornar um token quando logar", () => {
+        return request.post("/auth")
+            .send({email: mainUser.email, password: mainUser.password})
+            .then(res => {
+                expect(res.statusCode).toEqual(200)
+                expect(res.body.token).toBeDefined() //Me garante que o token foi recebido (não é undefined)
+            })
+            .catch( err =>{
+                 fail(err)
+            })
+    })
+
+    test("Deve impedir que um usuario não cadastrado se logue", () => {
+        return request.post("/auth")
+            .send({email: mainUser.email, password: mainUser.password})
+            .then(res => {
+                expect(res.statusCode).toEqual(404)
+                expect(res.body.error).toEqual("Usuário não encontrado") //Me garante que o token foi recebido (não é undefined)
+            })
+            .catch( err =>{
+                 fail(err)
+            })
+    })
+
+    test("Deve impedir que um usuario logue com a senha errada", () => {
+        return request.post("/auth")
+            .send({email: mainUser.email, password: mainUser.password})
+            .then(res => {
+                expect(res.statusCode).toEqual(406)
+                expect(res.body.error).toEqual("Senha incorreta") //Me garante que o token foi recebido (não é undefined)
+            })
+            .catch( err =>{
+                 fail(err)
+            })
+    })
+
 })
