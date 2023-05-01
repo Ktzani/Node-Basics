@@ -41,7 +41,7 @@ class UserService {
                 return {status: true, user: user, error: "E-mail já cadastrado!"}
             }
             else{
-                return {status: false, user: {}}
+                return {status: false, user: undefined}
             }
         }catch(err){
             console.log(err)

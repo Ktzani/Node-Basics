@@ -84,7 +84,7 @@ app.post("/auth", async (req, res) => {
 
     console.log(user)
     
-    if(user != {}){
+    if(user != undefined){
         let correctPass = await bcrypt.compare(password, user.password)
         if(correctPass){
             let token = jwt.sign({email: user.email, name: user.name, id: user._id}, secret, {expiresIn: '48h'})
