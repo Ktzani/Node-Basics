@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.post("/user", async (req, res) => {
 
     if(req.body.name == "" || req.body.email == "" || req.body.password == ""){
-        res.status(400)
+        res.status(400).send();
         return 
     }
 
@@ -75,7 +75,7 @@ app.post("/auth", async (req, res) => {
     let {email, password} = req.body
 
     if(email == "" || password == ""){
-        res.status(400)
+        res.status(400).send();
         return 
     }
 
