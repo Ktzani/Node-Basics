@@ -29,7 +29,7 @@ app.get("/pagar",async (req, res) => {
     // 1 // 1593163315787 // victordevtb@gmail.com  // Não foi pago
     // 2 //  1593163315782 // victordevtb2@gmail.com // Pago
 
-    var id = "" + Date.now();
+    var id = toString(Date.now());
     var emailDoPagador = "victordevtb@outlook.com";
 
     var dados = {
@@ -73,8 +73,15 @@ app.post("/not",(req, res) => {
             var pagamento = data.body.results[0];
 
             if(pagamento != undefined){
-                console.log(pagamento.external_reference);
+                //Aqui eu pego aquele id que passei na hora de pagar e assim consigo alterar no meu banco que o pagamento foi pago 
+                //alterando o atributo PAGO para true por meio desse external_reference
+                console.log(pagamento.external_reference); 
                 console.log(pagamento.status); // approved
+
+                // if(pagamento.status === "approved"){
+                //     //Defino que um determinado pagamento com esse id foi pago
+                //     Banco.definirComopago(pagamento.external_reference)
+                // }
             }else{
                 console.log("Pagamento não existe!");
             }
