@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/picsImage', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    // console.log("Banco de dados conectado")
+    console.log("Banco de dados conectado")
 }).catch((err) => {
     console.log(err)
 })
@@ -81,8 +81,6 @@ app.post("/auth", async (req, res) => {
 
     let result = await User.EmailExistente(email)
     let user = result.user
-
-    console.log(user)
     
     if(user != undefined){
         let correctPass = await bcrypt.compare(password, user.password)
